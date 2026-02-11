@@ -8,11 +8,15 @@ class ErrorScreenWidget extends StatelessWidget {
   final String? errorImage;
   final bool showGoHomeButton;
 
+  /// When set, shows a Retry button that refetches (e.g. after going back online).
+  final VoidCallback? onRetry;
+
   const ErrorScreenWidget({
     super.key,
     required this.errorMessage,
     this.errorImage,
     this.showGoHomeButton = true,
+    this.onRetry,
   });
 
   @override
@@ -131,6 +135,36 @@ class ErrorScreenWidget extends StatelessWidget {
 
               const SizedBox(height: 32),
 
+              // Retry Button - when onRetry is provided (e.g. on home after connection lost)
+              if (onRetry != null)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(32, 0, 32, 12),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: OutlinedButton.icon(
+                      onPressed: onRetry,
+                      icon: const Icon(Icons.refresh_rounded, size: 24),
+                      label: const Text(
+                        'Retry',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Theme.of(context).primaryColor,
+                        side: BorderSide(
+                            color: Theme.of(context).primaryColor, width: 2),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
               // Go to Home Button - Only show if showGoHomeButton is true
               if (showGoHomeButton)
                 Container(
@@ -175,28 +209,6 @@ class ErrorScreenWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-
-              const SizedBox(height: 16),
-
-              // Contact support text
-              TextButton(
-                onPressed: () {
-                  // Add your support action here
-                },
-                child: Text(
-                  'Contact Support',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.color
-                        ?.withOpacity(0.6),
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
             ],
           ),
         ),
