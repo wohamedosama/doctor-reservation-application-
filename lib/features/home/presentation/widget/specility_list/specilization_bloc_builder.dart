@@ -22,9 +22,12 @@ class SpecilizationBlocBuilder extends StatelessWidget {
             return setupSpecializationSuccess(specializationDataList);
           },
           specializationFailure: (error) {
-            return ErrorScreenWidget(
-              errorMessage: error.getAllErrorMessages(),
-              showGoHomeButton: true,
+            return Expanded(
+              child: ErrorScreenWidget(
+                errorMessage: error.getAllErrorMessages(),
+                showGoHomeButton: true,
+                onRetry: () => context.read<HomeCubit>().getSpecilazation(),
+              ),
             );
           },
           orElse: () {

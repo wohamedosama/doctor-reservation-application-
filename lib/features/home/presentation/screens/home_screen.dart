@@ -23,9 +23,16 @@ class HomeScreen extends StatelessWidget {
             verticalSpace(24),
             const DoctorSpecialityAndSeeAllSection(),
             verticalSpace(20),
-            const SpecilizationBlocBuilder(),
-            verticalSpace(12),
-            const DoctorsBlocBuilder(),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SpecilizationBlocBuilder(),
+                  verticalSpace(12),
+                  const DoctorsBlocBuilder(),
+                ],
+              ),
+            ),
           ],
         ),
       )),

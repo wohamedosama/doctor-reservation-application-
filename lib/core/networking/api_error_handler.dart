@@ -27,9 +27,12 @@ class ApiErrorHandler {
         default:
           return ApiErrorModel(message: "Something went wrong");
       }
-    } else {
-      return ApiErrorModel(message: "Unexpected error occurred");
     }
+    if (error is String) {
+      return ApiErrorModel(message: error);
+    }
+    return ApiErrorModel(
+        message: error?.toString() ?? "Unexpected error occurred");
   }
 
   static ApiErrorModel _handleError(dynamic data) {
